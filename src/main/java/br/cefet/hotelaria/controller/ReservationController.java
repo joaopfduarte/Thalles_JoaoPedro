@@ -4,6 +4,7 @@ import br.cefet.hotelaria.service.ReservationService;
 import br.cefet.hotelaria.domain.Reservation;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

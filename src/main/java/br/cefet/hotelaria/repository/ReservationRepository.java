@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    List<Reservation> findByIdContaining(String id);
+    List<Reservation> findByResponsavelContaining(String responsavel);
 
 }
