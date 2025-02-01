@@ -1,11 +1,10 @@
 package br.cefet.hotelaria.domain;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,16 +12,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "reservation")
-
-public class Reservation {
+@Entity(name = "guest")
+public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "Tipo é campo obrigatório para inserir ou modificar um SERVICE")
     @Column(nullable = false, length = 50)
-    private String responsavel;
+    private String nome;
 
     @NotEmpty
     @Column(nullable = false, length = 70)
@@ -30,13 +28,9 @@ public class Reservation {
 
     @NotNull
     @Column(nullable = false, length = 70)
-    private float valor;
+    private Long cpf;
 
-    @NotNull(message = "A data de reserva é obrigatória")
-    @Column(nullable = false)
-    private LocalDate dataReserva;
-
-    @ManyToOne
-    @JoinColumn(name = "guest_id", nullable = false)
-    private Guest guest;
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Reservation> reservations;
 }

@@ -57,7 +57,7 @@ public class ReservationController {
 
     @PutMapping({ "", "/" })
     public ResponseEntity<Reservation> update(@Valid @RequestBody Reservation reservation) {
-        reservation = reservationService.update(reservation);
+        reservation = reservationService.update(reservation); 
         return ResponseEntity.ok().body(reservation);
     }
 
