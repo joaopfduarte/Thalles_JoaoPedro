@@ -1,6 +1,9 @@
 package br.cefet.hotelaria.domain;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,10 +36,15 @@ public class Reservation {
     private float valor;
 
     @NotNull(message = "A data de reserva é obrigatória")
-    @Column(nullable = false)
+    @Column(name = "data_reserva", nullable = false)
     private LocalDate dataReserva;
 
+    @NotNull(message = "O horário da reserva é obrigatório")
+    @Column(name = "horario_reserva", nullable = false)
+    private LocalTime horarioReserva;
+
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "guest_id", nullable = false)
     private Guest guest;
 }
