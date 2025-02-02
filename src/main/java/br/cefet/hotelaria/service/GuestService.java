@@ -33,14 +33,13 @@ public class GuestService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não deve ser informado");
         }
 
-        // Link the reservations to the guest before saving
         if (guest.getReservations() != null) {
             for (Reservation reservation : guest.getReservations()) {
-                reservation.setGuest(guest); // Make sure the guest is set in each reservation
+                reservation.setGuest(guest);
             }
         }
 
-        guest = guestRepository.save(guest); // Save the guest along with the reservations
+        guest = guestRepository.save(guest);
         return guest;
     }
 
@@ -53,14 +52,13 @@ public class GuestService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id deve ser informado");
         }
 
-        // Ensure the guest is associated with each reservation during update
         if (guest.getReservations() != null) {
             for (Reservation reservation : guest.getReservations()) {
                 reservation.setGuest(guest); // Set the guest in each reservation
             }
         }
 
-        guest = guestRepository.save(guest); // Save the updated guest
+        guest = guestRepository.save(guest);
         return guest;
     }
 

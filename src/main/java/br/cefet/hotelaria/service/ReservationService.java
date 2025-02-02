@@ -33,17 +33,17 @@ public class ReservationService {
         if (reservation == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A reserva não pode ser nula");
         }
-    
+
         if (reservation.getId() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não deve ser informado");
         }
-    
+
         if (reservation.getGuest() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deve especificar o hóspede que fez a reserva");
         }
-    
+
         validarHorarioReserva(reservation.getHorarioReserva());
-    
+
         return reservationRepository.save(reservation);
     }
 
@@ -95,6 +95,5 @@ public class ReservationService {
     public List<Reservation> getAll() {
         return reservationRepository.findAll();
     }
-    
 
 }
