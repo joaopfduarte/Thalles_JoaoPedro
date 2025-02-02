@@ -61,8 +61,8 @@ public class ReservationService {
         LocalTime horaMaxima = LocalTime.of(23, 0); // 23:00
 
         if (horarioReserva.isBefore(horaMinima) || horarioReserva.isAfter(horaMaxima)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Reservas só podem ser feitas entre 06:00 e 23:00.");
+            throw new IllegalArgumentException("Reservas só podem ser feitas entre 06:00 e 23:00.");
+
         }
     }
 
