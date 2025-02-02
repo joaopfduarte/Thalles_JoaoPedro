@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -32,12 +34,10 @@ public class ReservationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não deve ser informado");
         }
 
+        validarHorarioReserva(reservation.getHorarioReserva());
+
         reservation = reservationRepository.save(reservation);
         return reservation;
-    }
-
-    public List<Reservation> getAll() {
-        return reservationRepository.findAll();
     }
 
     public Reservation update(Reservation reservation) {
@@ -45,8 +45,25 @@ public class ReservationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id deve ser informado");
         }
 
+        validarHorarioReserva(reservation.getHorarioReserva());
+
         reservation = reservationRepository.save(reservation);
         return reservation;
+    }
+
+    private void validarHorarioReserva(LocalTime horarioReserva) {
+        if (horarioReserva == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Horário da reserva não pode ser nulo.");
+        }
+
+        LocalTime horaMinima = LocalTime.of(6, 0); // 06:00
+        LocalTime horaMaxima = LocalTime.of(23, 0); // 23:00
+
+        if (horarioReserva.isBefore(horaMinima) || horarioReserva.isAfter(horaMaxima)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Reservas só podem ser feitas entre 06:00 e 23:00.");
+        }
     }
 
     public Reservation delete(Long id) {
@@ -67,5 +84,10 @@ public class ReservationService {
         }
         return reservationList;
     }
+
+    public List<Reservation> getAll() {
+        return reservationRepository.findAll();
+    }
+    
 
 }
