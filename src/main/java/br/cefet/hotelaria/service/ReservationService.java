@@ -30,14 +30,21 @@ public class ReservationService {
     }
 
     public Reservation create(Reservation reservation) {
-        if (reservation != null && reservation.getId() != null) {
+        if (reservation == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A reserva não pode ser nula");
+        }
+    
+        if (reservation.getId() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não deve ser informado");
         }
-
+    
+        if (reservation.getGuest() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deve especificar o hóspede que fez a reserva");
+        }
+    
         validarHorarioReserva(reservation.getHorarioReserva());
-
-        reservation = reservationRepository.save(reservation);
-        return reservation;
+    
+        return reservationRepository.save(reservation);
     }
 
     public Reservation update(Reservation reservation) {
